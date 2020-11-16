@@ -13,6 +13,7 @@
 
 <script>
 import MenuButton from './components/MenuButton.vue'
+import store from './store/store.js'
 
 export default {
   name: 'App',
@@ -26,11 +27,19 @@ export default {
       loading: false,
     }
   },
+  computed: {
+    products () {
+      return store.state.products
+    }
+  },
   methods: {
     changeCategory(category){
       this.selected = category
       console.log(category)
     }
+  },
+  mounted(){
+    store.dispatch("onGetProducts", this.selected)
   }
 }
 </script>
