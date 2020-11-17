@@ -14,10 +14,16 @@
       width= "200px"
     />
 
+    <VirtualScroll
+      v-if="!this.loading && products.length > 0" 
+      :products="products"
+    />
+
   </div>
 </template>
 
 <script>
+import VirtualScroll from './components/VirtualScroll.vue'
 import MenuButton from './components/MenuButton.vue'
 import Throbber from './components/Throbber.vue'
 import store from './store/store.js'
@@ -27,6 +33,7 @@ export default {
   components: {
     MenuButton,
     Throbber,
+    VirtualScroll,
   },
   data() {
     return {
@@ -35,23 +42,24 @@ export default {
       loading: true,
     }
   },
+  /*/ move it down the chain
   computed: {
     products () {
-      return store.state.products
+      return store.state.products[this.selected]
     }
-  },
+  }, */
   methods: {
     changeCategory(category){
       this.selected = category
-      this.loading = true
       if (this.products[category] == undefined){
-      store.dispatch("onGetProducts", this.selected)
-        .then(() => this.loading = false)
+        this.loading = true
+        store.dispatch("onGetProducts", this.selected)
+          .then(() => this.loading = false)
       }
     }
   },
-  mounted(){
-    store.dispatch("onGetProducts", this.selected)
+  created(){
+    this.changeCategory('shirts')
   }
 }
 </script>

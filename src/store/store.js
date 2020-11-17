@@ -11,8 +11,8 @@ const store = new Vuex.Store({
     },
     mutations: {
         [ACTION_TYPES.getProducts]: (state, payload) => {
-            console.log(payload);
             (state.products[payload.category] = payload.products);
+            return payload.products
         },
     },
     actions: {
