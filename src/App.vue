@@ -14,16 +14,20 @@
       width= "200px"
     />
 
-    <VirtualScroll
+    <virtual-list 
       v-if="!this.loading && this.products.length != 0" 
-      :products="products"
+      style="height: 80vh; overflow-y: auto;"
+      :data-key="'id'"
+      :data-sources="products"
+      :data-component="itemComponent"
     />
 
   </div>
 </template>
 
 <script>
-import VirtualScroll from './components/VirtualScroll.vue'
+import Item from './components/./Item'
+import VirtualList from 'vue-virtual-scroll-list'
 import MenuButton from './components/MenuButton.vue'
 import Throbber from './components/Throbber.vue'
 import store from './store/store.js'
@@ -31,12 +35,13 @@ import store from './store/store.js'
 export default {
   name: 'App',
   components: {
+    VirtualList,
     MenuButton,
     Throbber,
-    VirtualScroll,
   },
   data() {
     return {
+      itemComponent: Item,
       selected: 'shirts',
       categories: ['jackets', 'shirts', 'accessories'],
       loading: false,
