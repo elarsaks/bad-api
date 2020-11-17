@@ -42,7 +42,7 @@ button :hover{
 }
 
 .selected {
-    background-color: rgb(86, 172, 0);
+    background-color: rgb(21, 190, 154);
 }
 
 .not-selected {
