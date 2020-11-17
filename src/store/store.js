@@ -7,7 +7,11 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        products: {}
+        products: {
+            jackets: [],
+            shirts: [],
+            accessories: [],
+        }
     },
     mutations: {
         [ACTION_TYPES.getProducts]: (state, payload) => {
@@ -17,6 +21,7 @@ const store = new Vuex.Store({
     },
     actions: {
         onGetProducts:({ commit }, category ) => {
+            // TODO: error handling
             Products.getProducts(category)
                 .then(products => { commit(ACTION_TYPES.getProducts, {products, category}) })
         }

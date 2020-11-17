@@ -10,12 +10,12 @@
     />
 
     <Throbber 
-      v-if="this.loading" 
+      v-if="this.loading || this.products.length < 1" 
       width= "200px"
     />
 
     <VirtualScroll
-      v-if="!this.loading && products.length > 0" 
+      v-if="!this.loading && this.products.length != 0" 
       :products="products"
     />
 
@@ -39,27 +39,27 @@ export default {
     return {
       selected: 'shirts',
       categories: ['jackets', 'shirts', 'accessories'],
-      loading: true,
+      loading: false,
     }
   },
-  /*/ move it down the chain
   computed: {
     products () {
       return store.state.products[this.selected]
-    }
-  }, */
+    },
+  }, 
   methods: {
     changeCategory(category){
       this.selected = category
-      if (this.products[category] == undefined){
+      if (this.products.length < 1){
         this.loading = true
+        // TODO: error handling
         store.dispatch("onGetProducts", this.selected)
           .then(() => this.loading = false)
       }
     }
   },
   created(){
-    this.changeCategory('shirts')
+    store.dispatch("onGetProducts", 'shirts')
   }
 }
 </script>
