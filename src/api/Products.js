@@ -9,7 +9,7 @@ function getProducts(payload) {
     }, */ // Come back to that!
     params: payload,
   })
-    .then(response => response.data.slice(1-100))
+    .then(response => response.data.slice(1-1000))
 }
 
 module.exports = { getProducts }

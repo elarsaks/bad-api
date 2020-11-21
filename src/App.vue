@@ -15,11 +15,14 @@
     />
 
     <virtual-list 
-      v-if="!this.loading && this.products.length != 0" 
-      style="height: 80vh; overflow-y: auto;"
+      v-if="!this.loading && this.products.length != 0"
+      class="virtual-list-outer"
+      item-class="row"
+      wrap-class="virtual-list-inner"
       :data-key="'id'"
       :data-sources="products"
       :data-component="itemComponent"
+      :keeps=50
     />
 
   </div>
@@ -75,6 +78,31 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
   font-size: 25px;
+}
+
+.virtual-list-outer {
+  text-align: center;
+  height: 80vh;
+  width: 70vw;
+  overflow-y: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.virtual-list-inner {
+  width: 100%;
+}
+
+.row {
+  width: 99%;
+  font-size: 1.2em;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  border: 1px solid rgb(221, 220, 220);
+}
+
+.row :hover{
+  cursor: pointer;
+  background-color: rgba(0, 255, 213, 0.479);
 }
 
 </style>
