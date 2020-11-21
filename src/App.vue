@@ -34,6 +34,7 @@ import VirtualList from 'vue-virtual-scroll-list'
 import MenuButton from './components/MenuButton.vue'
 import Throbber from './components/Throbber.vue'
 import store from './store/store.js'
+import Filter from './services/Filter.js'
 
 export default {
   name: 'App',
@@ -60,7 +61,6 @@ export default {
       this.selected = category
       if (this.products.length < 1){
         this.loading = true
-        // TODO: error handling
         store.dispatch("onGetProducts", this.selected)
           .then(() => this.loading = false)
       }
@@ -68,6 +68,9 @@ export default {
   },
   created(){
     store.dispatch("onGetProducts", 'shirts')
+      .then(products => Filter.getManufacturersList(products))
+      .then(manuList => manuList.map(m => store.dispatch("onGetAvailability", m)))
+      .then(manuList => Promise.all(manuList))
   }
 }
 </script>
