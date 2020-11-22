@@ -22,7 +22,7 @@
       :data-key="'id'"
       :data-sources="products"
       :data-component="itemComponent"
-      :keeps=50
+      :keeps=30
     />
 
   </div>
@@ -48,7 +48,7 @@ export default {
       itemComponent: Item,
       selected: 'shirts',
       categories: ['jackets', 'shirts', 'accessories'],
-      loading: false,
+      loading: true,
     }
   },
   computed: {
@@ -71,6 +71,7 @@ export default {
       .then(products => Filter.getManufacturersList(products))
       .then(manuList => manuList.map(m => store.dispatch("onGetAvailability", m)))
       .then(manuList => Promise.all(manuList))
+      .then(() => this.loading = false)
   }
 }
 </script>

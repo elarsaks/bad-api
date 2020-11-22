@@ -4,12 +4,21 @@
         <div class="item-element">{{source.manufacturer}}</div>
         <div class="item-element price">{{source.price}}€</div>
         <div class="item-element stock">
-          Instock
+          <Throbber 
+            v-if="this.source.stock == undefined"
+            width= "1.5em"
+          />
+          <div v-if="this.source.stock">
+            {{this.source.stock}}
+          </div>
         </div>
     </div>
 </template>
  
 <script>
+import store from '../store/store.js'
+import Throbber from './Throbber.vue'
+
   export default {
     name: 'item-component',
     props: {
@@ -19,6 +28,17 @@
           return {}
         }
       }
+    },
+    components: {
+      Throbber
+    },
+    // TODO: what happenns when stock item cannot be found 
+    created(){
+      store.dispatch("onCheckAvailability", {
+        category: this.source.type,
+        id: this.source.id,
+        manufacturer: this.source.manufacturer,
+      })
     }
   }
 </script>
