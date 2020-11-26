@@ -70,8 +70,10 @@ export default {
     store.dispatch("onGetProducts", 'shirts')
       .then(products => Filter.getManufacturersList(products))
       .then(manuList => manuList.map(m => store.dispatch("onGetAvailability", m)))
-      .then(manuList => Promise.all(manuList))
-      .then(() => this.loading = false)
+      .then(manuList => {
+        this.loading = false
+        Promise.all(manuList)
+        })
   }
 }
 </script>

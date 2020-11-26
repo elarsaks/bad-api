@@ -5,17 +5,18 @@
         <div class="item-element price">{{source.price}}€</div>
         <div class="item-element stock">
           <Throbber 
-            v-if="this.source.stock == undefined"
+            v-if="this.stock == false"
             width= "1.5em"
           />
-          <div v-if="this.source.stock">
-            {{this.source.stock}}
+          <div v-if="this.stock">
+            {{this.stock}}
           </div>
         </div>
     </div>
 </template>
  
 <script>
+import Clean from '../services/Clean.js'
 import store from '../store/store.js'
 import Throbber from './Throbber.vue'
 
@@ -32,14 +33,17 @@ import Throbber from './Throbber.vue'
     components: {
       Throbber
     },
-    // TODO: what happenns when stock item cannot be found 
-    created(){
-      store.dispatch("onCheckAvailability", {
-        category: this.source.type,
-        id: this.source.id,
-        manufacturer: this.source.manufacturer,
-      })
-    }
+    computed: {
+      manufacturers () {
+        return store.state.manufacturers
+      },
+      stock () {
+        return store.state.manufacturers[this.source.manufacturer]
+          ? Clean.cleanAvailability( store.state.manufacturers[this.source.manufacturer]
+            .find(e => e.id == this.source.id.toUpperCase()).DATAPAYLOAD)
+          : false
+      },
+    },
   }
 </script>
 
