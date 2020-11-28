@@ -36,13 +36,21 @@ const store = new Vuex.Store({
         },
     },
     actions: {
-        onGetAvailability:({ commit }, manufacturer ) => {     
-            // TODO: error handling
-            return Availability.getAvailability(manufacturer)
-                .then(data => { 
-                    commit(ACTION_TYPES.getAvailability, {manufacturer, data, status: true});
-                    return data
+        onGetAvailability:({ commit }, manufacturer ) => { 
+            
+            function recursiveCalling(manufacturer){
+                Availability.getAvailability(manufacturer)
+                .then(data => {
+                    if (Array.isArray(data)){
+                        commit(ACTION_TYPES.getAvailability, {manufacturer, data, status: true})
+                        return data
+                    } else {
+                        recursiveCalling(manufacturer)
+                    }
                 })
+            }
+
+            return recursiveCalling(manufacturer)
         },
         onGetProducts:({ commit }, payload ) => {
             // TODO: error handling
@@ -56,7 +64,6 @@ const store = new Vuex.Store({
             commit(ACTION_TYPES.setManufacturers, payload)
         },
     },
-    routes: {}, // Not needed?
 })
 
 export default store

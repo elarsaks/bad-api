@@ -1,5 +1,5 @@
 export default { 
     fetchProducts: 10000,
-    displayProducts: 150,
+    displayProducts: 50,
 }
   

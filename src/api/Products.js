@@ -4,9 +4,10 @@ function getProducts(payload) {
   return axios({
     url: `https://bad-api-assignment.reaktor.com/products/${payload.category}`,
     method: "GET",
-  /*  headers: {
-      'Forwarded': 'x-force-error-mode'
-    }, */ // Come back to that!
+    headers: {
+      //  Come back to that!
+      //  'Forwarded': 'x-force-error-mode'
+    },
     params: payload,
   })
     .then(response => response.data.slice(1 - payload.amount))
