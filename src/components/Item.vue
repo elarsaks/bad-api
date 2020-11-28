@@ -17,7 +17,6 @@
  
 <script>
 import Clean from '../services/Clean.js'
-import store from '../store/store.js'
 import Throbber from './Throbber.vue'
 
   export default {
@@ -34,12 +33,15 @@ import Throbber from './Throbber.vue'
       Throbber
     },
     computed: {
+      /* HERE IS A BUG!
+        Vue dont watch for changes inside the object and will not re-render when Vuex state (manufacturers) changes.
+      */
       manufacturers () {
-        return store.state.manufacturers
+        return this.$store.state.manufacturers
       },
       stock () {
-        return store.state.manufacturers[this.source.manufacturer]
-          ? Clean.cleanAvailability( store.state.manufacturers[this.source.manufacturer]
+        return this.$store.state.manufacturers[this.source.manufacturer]
+          ? Clean.cleanAvailability( this.$store.state.manufacturers[this.source.manufacturer]
             .find(e => e.id == this.source.id.toUpperCase()).DATAPAYLOAD)
           : false
       },

@@ -22,7 +22,7 @@
       :data-key="'id'"
       :data-sources="products"
       :data-component="itemComponent"
-      :keeps=30
+      :keeps=50
     />
 
   </div>
@@ -33,8 +33,8 @@ import Item from './components/./Item'
 import VirtualList from 'vue-virtual-scroll-list'
 import MenuButton from './components/MenuButton.vue'
 import Throbber from './components/Throbber.vue'
-import store from './store/store.js'
 import Filter from './services/Filter.js'
+import { mapState } from 'vuex'
 
 export default {
   name: 'App',
@@ -51,25 +51,24 @@ export default {
       loading: true,
     }
   },
-  computed: {
-    products () {
-      return store.state.products[this.selected]
-    },
-  }, 
+  computed: mapState({
+    products: state => state.products['shirts']
+  }),
   methods: {
     changeCategory(category){
       this.selected = category
+      this.$store.dispatch("onChangeCategory", category)
       if (this.products.length < 1){
         this.loading = true
-        store.dispatch("onGetProducts", this.selected)
+        this.$store.dispatch("onGetProducts", category)
           .then(() => this.loading = false)
       }
     }
   },
   created(){
-    store.dispatch("onGetProducts", 'shirts')
+    this.$store.dispatch("onGetProducts", 'shirts')
       .then(products => Filter.getManufacturersList(products))
-      .then(manuList => manuList.map(m => store.dispatch("onGetAvailability", m)))
+      .then(manuList => manuList.map(m => this.$store.dispatch("onGetAvailability", m)))
       .then(manuList => {
         this.loading = false
         Promise.all(manuList)

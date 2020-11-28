@@ -8,12 +8,12 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
+        manufacturers:{},
         products: {
             jackets: [],
             shirts: [],
             accessories: [],
         },
-        manufacturers:{},
     },
     mutations: {
         [ACTION_TYPES.getAvailability]: (state, payload) => {
