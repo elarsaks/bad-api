@@ -22,7 +22,8 @@
       :data-key="'id'"
       :data-sources="products"
       :data-component="itemComponent"
-      :keeps=50
+      :keeps="keeps"
+      :extra-props="manufacturers"
     />
 
   </div>
@@ -30,6 +31,7 @@
 
 <script>
 import Item from './components/./Item'
+import config from './config.js'
 import VirtualList from 'vue-virtual-scroll-list'
 import MenuButton from './components/MenuButton.vue'
 import Throbber from './components/Throbber.vue'
@@ -49,10 +51,12 @@ export default {
       selected: 'shirts',
       categories: ['jackets', 'shirts', 'accessories'],
       loading: true,
+      keeps: config.displayProducts,
     }
   },
   computed: mapState({
-    products: state => state.products['shirts']
+    products: state => state.products['shirts'],
+    manufacturers: state => state.manufacturers
   }),
   methods: {
     changeCategory(category){
@@ -66,7 +70,7 @@ export default {
     }
   },
   created(){
-    this.$store.dispatch("onGetProducts", 'shirts')
+    this.$store.dispatch("onGetProducts", {category: 'shirts', amount: config.fetchProducts})
       .then(products => Filter.getManufacturersList(products))
       .then(manuList => manuList.map(m => this.$store.dispatch("onGetAvailability", m)))
       .then(manuList => {

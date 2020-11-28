@@ -8,7 +8,6 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        manufacturers:{},
         products: {
             jackets: [],
             shirts: [],
@@ -36,11 +35,11 @@ const store = new Vuex.Store({
                     return data
                 })
         },
-        onGetProducts:({ commit }, category ) => {     
+        onGetProducts:({ commit }, payload ) => {
             // TODO: error handling
-            return Products.getProducts(category)
+            return Products.getProducts(payload)
                 .then(products => { 
-                    commit(ACTION_TYPES.getProducts, {products, category})
+                    commit(ACTION_TYPES.getProducts, {products, category: payload.category})
                     return products
                 })
         },

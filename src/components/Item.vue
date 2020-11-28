@@ -16,7 +16,7 @@
 </template>
  
 <script>
-import Clean from '../services/Clean.js'
+//import Clean from '../services/Clean.js'
 import Throbber from './Throbber.vue'
 
   export default {
@@ -40,10 +40,12 @@ import Throbber from './Throbber.vue'
         return this.$store.state.manufacturers
       },
       stock () {
+        /*
         return this.$store.state.manufacturers[this.source.manufacturer]
           ? Clean.cleanAvailability( this.$store.state.manufacturers[this.source.manufacturer]
             .find(e => e.id == this.source.id.toUpperCase()).DATAPAYLOAD)
-          : false
+          : false */
+          return false
       },
     },
   }
