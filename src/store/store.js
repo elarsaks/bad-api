@@ -8,6 +8,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
+        manufacturers:{},
         products: {
             jackets: [],
             shirts: [],
@@ -16,14 +17,22 @@ const store = new Vuex.Store({
     },
     mutations: {
         [ACTION_TYPES.getAvailability]: (state, payload) => {
-            (state.manufacturers[payload.manufacturer] = payload.data);
-            // Should mutation return anything???!!
+            //(state.manufacturers[payload.manufacturer] = payload.data);
+            Vue.set(state.manufacturers, payload.manufacturer, {
+                status: payload.status,
+                data: payload.data
+            })
             return payload.manufacturers
         },
         [ACTION_TYPES.getProducts]: (state, payload) => {
             (state.products[payload.category] = payload.products);
-            // Should mutation return anything???!!
             return payload.products
+        },
+        [ACTION_TYPES.setManufacturers]: (state, payload) => {
+            Vue.set(state.manufacturers, payload.manufacturer, {
+                status: payload.status,
+                data: []
+            })
         },
     },
     actions: {
@@ -31,7 +40,7 @@ const store = new Vuex.Store({
             // TODO: error handling
             return Availability.getAvailability(manufacturer)
                 .then(data => { 
-                    commit(ACTION_TYPES.getAvailability, {manufacturer, data});
+                    commit(ACTION_TYPES.getAvailability, {manufacturer, data, status: true});
                     return data
                 })
         },
@@ -42,6 +51,9 @@ const store = new Vuex.Store({
                     commit(ACTION_TYPES.getProducts, {products, category: payload.category})
                     return products
                 })
+        },
+        onSetManufacturers:({ commit }, payload ) => {
+            commit(ACTION_TYPES.setManufacturers, payload)
         },
     },
     routes: {}, // Not needed?

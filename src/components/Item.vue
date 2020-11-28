@@ -16,7 +16,7 @@
 </template>
  
 <script>
-//import Clean from '../services/Clean.js'
+import Clean from '../services/Clean.js'
 import Throbber from './Throbber.vue'
 
   export default {
@@ -33,19 +33,11 @@ import Throbber from './Throbber.vue'
       Throbber
     },
     computed: {
-      /* HERE IS A BUG!
-        Vue dont watch for changes inside the object and will not re-render when Vuex state (manufacturers) changes.
-      */
-      manufacturers () {
-        return this.$store.state.manufacturers
-      },
       stock () {
-        /*
-        return this.$store.state.manufacturers[this.source.manufacturer]
-          ? Clean.cleanAvailability( this.$store.state.manufacturers[this.source.manufacturer]
+        return this.$store.state.manufacturers[this.source.manufacturer].status
+          ? Clean.cleanAvailability( this.$store.state.manufacturers[this.source.manufacturer].data
             .find(e => e.id == this.source.id.toUpperCase()).DATAPAYLOAD)
-          : false */
-          return false
+          : false
       },
     },
   }

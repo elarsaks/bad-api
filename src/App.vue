@@ -72,6 +72,13 @@ export default {
   created(){
     this.$store.dispatch("onGetProducts", {category: 'shirts', amount: config.fetchProducts})
       .then(products => Filter.getManufacturersList(products))
+      .then(manuList => {
+        console.log(manuList)
+        manuList.forEach(m => {
+          this.$store.dispatch("onSetManufacturers", {manufacturer: m, status: false})
+        });
+        return manuList
+      })
       .then(manuList => manuList.map(m => this.$store.dispatch("onGetAvailability", m)))
       .then(manuList => {
         this.loading = false
