@@ -28,7 +28,7 @@ export default {
 button {
     padding: 1em;
     margin: 0.5em;
-    font-size: 1.2em;
+    font-size: 0.5em;
     border-radius: 2vh;
     border: none;
     color: white;

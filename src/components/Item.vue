@@ -52,7 +52,7 @@ import Throbber from './Throbber.vue'
 .item-element {
   display: inline-block;
   text-align: left;
-  width: 25%;
+  width: 20%;
   margin-left: 10px;
   margin-right: 10px;
 }

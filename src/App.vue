@@ -73,7 +73,6 @@ export default {
     this.$store.dispatch("onGetProducts", {category: 'shirts', amount: config.fetchProducts})
       .then(products => Filter.getManufacturersList(products))
       .then(manuList => {
-        console.log(manuList)
         manuList.forEach(m => {
           this.$store.dispatch("onSetManufacturers", {manufacturer: m, status: false})
         });
@@ -111,7 +110,7 @@ export default {
 
 .row {
   width: 99%;
-  font-size: 1.2em;
+  font-size: 0.5em;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   border: 1px solid rgb(221, 220, 220);
 }
