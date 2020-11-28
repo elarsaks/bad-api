@@ -110,7 +110,7 @@ export default {
 
 .row {
   width: 99%;
-  font-size: 0.5em;
+  font-size: 2vh;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   border: 1px solid rgb(221, 220, 220);
 }
@@ -119,5 +119,13 @@ export default {
   cursor: pointer;
   background-color: rgba(0, 255, 213, 0.479);
 }
+
+@media all and (max-width:900px){
+  .virtual-list-outer {
+    text-align: center;
+    height: 80vh;
+    width: 95vw;
+  }
+} 
 
 </style>

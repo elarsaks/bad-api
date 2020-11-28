@@ -26,15 +26,15 @@ export default {
 
 <style scoped>
 button {
-    padding: 1em;
-    margin: 0.5em;
-    font-size: 0.5em;
-    border-radius: 2vh;
-    border: none;
-    color: white;
-    text-transform: uppercase;
-    font-weight: 600;
-    z-index: 99;
+  padding: 2vh;
+  margin: 2vh;
+  font-size: 2vh;
+  border-radius: 2vh;
+  border: none;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 600;
+  z-index: 99;
 }
 
 button :hover{
@@ -42,15 +42,28 @@ button :hover{
 }
 
 .selected {
-    background-color: rgb(21, 190, 154);
+  background-color: rgb(21, 190, 154);
 }
 
 .not-selected {
-    background-color: rgb(58, 58, 58);
+  background-color: rgb(58, 58, 58);
 }
 
 .hover{
    cursor: pointer;
 }
+
+a.button1:hover {
+  color: #000000;
+  background-color: #FFFFFF;
+}
+
+@media all and (max-width:900px){
+  button {
+    padding: 1vw;
+    border-radius: 5px;
+  }
+} 
+
 </style>
 

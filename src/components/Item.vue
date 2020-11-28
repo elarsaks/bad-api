@@ -1,7 +1,7 @@
 <template>
     <div class="item">
         <div class="item-element name">{{source.name}}</div>
-        <div class="item-element">{{source.manufacturer}}</div>
+        <div class="item-element manufacturer">{{source.manufacturer}}</div>
         <div class="item-element price">{{source.price}}€</div>
         <div class="item-element stock">
           <Throbber 
@@ -68,4 +68,24 @@ import Throbber from './Throbber.vue'
 .stock {
   text-align: center;
 }
+
+@media all and (max-width:900px){
+  .name {
+    width: 50%;
+  }
+  .manufacturer {
+    display: none;
+  }
+
+  .price {
+    display: none;
+  }
+
+  .stock {
+    text-align: right;
+    width: 35%;
+  }
+
+
+} 
 </style>
