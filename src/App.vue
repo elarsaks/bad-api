@@ -20,7 +20,7 @@
       item-class="row"
       wrap-class="virtual-list-inner"
       :data-key="'id'"
-      :data-sources="products"
+      :data-sources="products[this.selected]"
       :data-component="itemComponent"
       :keeps="keeps"
       :extra-props="manufacturers"
@@ -54,35 +54,38 @@ export default {
       keeps: config.displayProducts,
     }
   },
-  computed: mapState({
-    products: state => state.products['shirts'],
-    manufacturers: state => state.manufacturers
-  }),
+  computed: {
+    ...mapState({
+    manufacturers: state => state.manufacturers,
+    products: state => state.products,
+    })
+  },
   methods: {
-    changeCategory(category){
+    changeCategory(category){ 
       this.selected = category
-      this.$store.dispatch("onChangeCategory", category)
-      if (this.products.length < 1){
-        this.loading = true
-        this.$store.dispatch("onGetProducts", category)
-          .then(() => this.loading = false)
+      if (this.products[category].length < 1){
+        this.fetchProducts(category)
       }
-    }
+    },
+    fetchProducts(category){
+      this.loading = true
+        this.$store.dispatch("onGetProducts", {category: category, amount: config.fetchProducts})
+          .then(products => Filter.getManufacturersList(products))
+          .then(manuList => this.setManuListToStore(manuList))
+          .then(manuList => manuList.map(m => this.$store.dispatch("onGetAvailability", m)))
+          .then(manuList => {
+            this.loading = false
+            Promise.all(manuList)
+            })
+    },
+    setManuListToStore(manuList){
+      manuList.forEach(m => 
+        this.$store.dispatch("onSetManufacturers", {manufacturer: m, status: false}));
+      return manuList
+    },
   },
   created(){
-    this.$store.dispatch("onGetProducts", {category: 'shirts', amount: config.fetchProducts})
-      .then(products => Filter.getManufacturersList(products))
-      .then(manuList => {
-        manuList.forEach(m => {
-          this.$store.dispatch("onSetManufacturers", {manufacturer: m, status: false})
-        });
-        return manuList
-      })
-      .then(manuList => manuList.map(m => this.$store.dispatch("onGetAvailability", m)))
-      .then(manuList => {
-        this.loading = false
-        Promise.all(manuList)
-        })
+    this.fetchProducts('shirts')
   }
 }
 </script>
