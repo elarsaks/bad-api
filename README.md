@@ -1,5 +1,12 @@
 # bad-api
 
+## About project
+```
+Project is built as a part of a job application to Reaktor junior developer position.
+Project is built in Vue 2.
+Project uses 2 third-party libraries: axios and vue-virtual-scroll-list.
+```
+
 ## Project setup
 ```
 npm install
