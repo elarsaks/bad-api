@@ -15,10 +15,5 @@ npm run serve
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
 ### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+The amount of products loaded and products displayed can be changed in src/config.js
