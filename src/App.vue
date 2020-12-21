@@ -1,57 +1,70 @@
 <template>
-  <div id="app">
-    <MenuButton
-      class="menu-button"
-      v-for="category in categories"
-      v-bind:key="category"
-      :name="category"
-      :selected="category == selected"
-      @change-category="changeCategory"
-    />
+  <v-app>
+    <AppBar />
+    <div id="table-wrapper">
+       <div class="text-center pt-2">
 
-    <Throbber 
-      v-if="this.loading || this.products.length < 1" 
-      width= "200px"
-    />
+        <v-pagination
+            v-model="page"
+            :length="pageCount"
+        ></v-pagination>
 
-    <virtual-list 
-      v-if="!this.loading && this.products.length != 0"
-      class="virtual-list-outer"
-      item-class="row"
-      wrap-class="virtual-list-inner"
-      :data-key="'id'"
-      :data-sources="products[this.selected]"
-      :data-component="itemComponent"
-      :keeps="keeps"
-      :extra-props="manufacturers"
-    />
+        <v-data-table
+          :headers="headers"
+          :items="products[this.selected]"
+          :page.sync="page"
+          :items-per-page="itemsPerPage"
+          hide-default-footer
+          class="elevation-1"
+          @page-count="pageCount = $event"
+        ></v-data-table>
 
-  </div>
+        <v-pagination
+          v-model="page"
+          :length="pageCount"
+        ></v-pagination>
+      </div>
+    </div>
+
+  </v-app>
 </template>
 
 <script>
-import Item from './components/./Item'
+import AppBar from './components/AppBar';
 import config from './config.js'
-import VirtualList from 'vue-virtual-scroll-list'
-import MenuButton from './components/MenuButton.vue'
-import Throbber from './components/Throbber.vue'
+
 import Filter from './services/Filter.js'
 import { mapState } from 'vuex'
 
 export default {
   name: 'App',
+
   components: {
-    VirtualList,
-    MenuButton,
-    Throbber,
+    AppBar
   },
+
   data() {
     return {
-      itemComponent: Item,
       selected: 'shirts',
       categories: ['jackets', 'shirts', 'accessories'],
       loading: true,
       keeps: config.displayProducts,
+      page: 1,
+      pageCount: 0,
+      itemsPerPage: 25,
+      headers: [
+        {
+          text: 'Name',
+          align: 'start',
+          sortable: false,
+          value: 'name',
+        },
+        { text: 'Type', value: 'type' },
+        { text: 'Manufacturer (g)', value: 'manufacturer' },
+        { text: 'Price', value: 'price' },
+        { text: 'Colors', value: 'color' },
+        { text: 'Stock', value: 'stock' },
+      ],
     }
   },
   computed: {
@@ -87,48 +100,14 @@ export default {
   created(){
     this.fetchProducts('shirts')
   }
-}
+};
 </script>
 
-<style>
-#app {
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-  font-size: 25px;
-}
 
-.virtual-list-outer {
-  text-align: center;
-  height: 80vh;
-  width: 70vw;
-  overflow-y: auto;
+<style scoped>
+#table-wrapper{
+  width: 90vw;
   margin-left: auto;
   margin-right: auto;
 }
-
-.virtual-list-inner {
-  width: 100%;
-}
-
-.row {
-  width: 99%;
-  font-size: 2vh;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  border: 1px solid rgb(221, 220, 220);
-}
-
-.row :hover{
-  cursor: pointer;
-  background-color: rgba(0, 255, 213, 0.479);
-}
-
-@media all and (max-width:900px){
-  .virtual-list-outer {
-    text-align: center;
-    height: 80vh;
-    width: 95vw;
-  }
-} 
-
 </style>
