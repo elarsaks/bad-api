@@ -12,6 +12,8 @@
     "nodemon": "^2.0.6"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1",
+    "redis": "^3.0.2"
   }
 }

@@ -1,30 +1,30 @@
 version: "3.5"
 services:
-  #client:
-  #  build:
-  #    context: ./client
-  #  command: "sh -c \"npm run serve\""
-  #  container_name: client
-  #  depends_on:
-  #    - api
-  #  restart: unless-stopped
-  #  ports:
-  #    - 8080:8080
-  #  volumes:
-  #    - "./client/src:/app/src"
-  #    - "./client/package.json:/app/package.json"
-  #    - "./client/package-lock.json:/app/package-lock.json"
+  # Client
+  client:
+    build:
+      context: ./client
+    command: "sh -c \"npm run serve\""
+    container_name: client
+    depends_on:
+      - api
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    volumes:
+      - "./client/src:/app/src"
+      - "./client/package.json:/app/package.json"
+      - "./client/package-lock.json:/app/package-lock.json"
+  # API
   api:
     container_name: api
-    build: ./api/
-    depends_on:
-      - pg
-    command: "sh -c \"./wait-for pg:5432 -- npm start\""
-    environment: 
-      DB_HOST: pg
-      DB_USER: postgres
-      DB_PASS: password
-      DATABASE_URL: postgres://postgres:password@pg:5432/bad-api
+    build: 
+      context: ./api/
+    command: "sh -c \"npm start\""
+    links:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
     restart: unless-stopped
     ports:
       - 3001:3001
@@ -32,17 +32,8 @@ services:
       - "./api/src/:/app/src"
       - "./api/package.json:/app/package.json"
       - "./api/package-lock.json:/app/package-lock.json"
-  pg:
-    build:
-      context: ./data
-    environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_USER: postgres
-      POSTGRES_DB: bad-api
-    restart: unless-stopped
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-volumes:
-  postgres_data: 
+  # Redis
+  redis:
+    image: redis:alpine
+    expose:
+      - 6379
