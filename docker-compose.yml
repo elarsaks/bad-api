@@ -40,3 +40,19 @@ services:
     #  - ./redis.conf:/usr/local/etc/redis/redis.conf
     expose:
       - 6379
+  #PostGreSQL
+  pg:
+    build:
+      context: ./data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: bad-api
+      DATABASE_URL: postgres://postgres:password@pg:5432/bad-api
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+volumes:
+  postgres_data: 
