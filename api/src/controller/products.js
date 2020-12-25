@@ -1,20 +1,36 @@
 const reaktor = require('../repository/reaktor/products.js');
 const redis = require('../repository/redis/products.js');
 
-const fetchProducts = (params) => {
+const fetchProducts = (category) => {
+    return "Under development"
+    /*
   return reaktor.fetchProducts(params)
-  .then(response => response.json())
-  .then(response => response.slice(1-10))
-  .then(response => {
-    response.forEach(element => {
-        redis.insertProducts(element) 
-    });
- 
-     // console.log(response)
-    return response
+    .then(productList => insertEachProduct(productList))
+    .then(data => {
+        console.log(data)
+        return data
     })
+    /*
+    .then( response => {
+        redis.getAllKeys()
+        return response
+    }) */
+}
+
+const insertEachProduct = (productList) => {
+    return productList.forEach(product => {
+        redis.insertProducts(product)
+    })
+}
+
+// Do I need params for req, or I can just put category?
+const insertProductsIntoRedis = (category) => {
+    return reaktor.fetchProducts(category)
+    .then(productList => insertEachProduct(productList))
 }
 
 module.exports = {
     fetchProducts,
+    insertEachProduct,
+    insertProductsIntoRedis,
 }

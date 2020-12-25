@@ -6,10 +6,10 @@ const router = express.Router()
 //Get all products from Reaktor api
 router.get('/:category', (req, res)=> { 
     products.fetchProducts(req.params)
-    .then(resp => {
+  /*  .then(resp => {
         return res.send(resp)
     })
-    .catch(err => err)
+    .catch(err => err) */
 });
 
 module.exports = router;

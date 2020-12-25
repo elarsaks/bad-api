@@ -1,35 +1,30 @@
 const redis = require('redis')
-const REDIS_PORT = 6379
+const REDIS_URL = 6379
 const client = redis.createClient(process.env.REDIS_URL)
 
 const insertProducts = (product) => {
-    //console.log(product)
-    //client.set(product.id, JSON.stringify(product))
-    client.hmset(product.id, [
+    return client.hmset(product.id, [
         'id', product.id,
         'type', product.type,
         'name', product.name,
-        //'color', Insert Array,
+        'color', JSON.stringify(product.color),
         'price', product.price,
         'manufacturer', product.manufacturer,
-    ],
-    function(err, reply){
-        if(err){
-            console.log(err)
-        }
-        console.log(reply)
-    })
+    ], 
+    (err, reply) => err ? console.log(err) : reply)
+}
 
-    client.hgetall(product.id)
-    .then(data = console.log(data))
-    // res.redirect('/')
+const getAllKeys = () => {
+    client.keys('*', function (err, keys) {
+        if (err) return console.log(err);
+
+        for(var i = 0, len = keys.length; i < len; i++) {
+            console.log(keys[i]);
+        }
+    });  
 }
 
 module.exports = {
     insertProducts,
+    getAllKeys,
   }
-
-
-//client.set("transactions", 123, redis.print)
-//client.get("transactions", redis.print)
-//client.del("transactions", redis.print)

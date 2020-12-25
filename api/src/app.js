@@ -1,21 +1,18 @@
 const express = require('express');
 const fetch = require('node-fetch');
 const router = require('./router/index.js')
-const redis = require('redis')
+const products = require('./controller/products.js');
 
 
 const PORT = process.env.PORT || 3001;
-//const REDIS_PORT = 6379
 const app = express();
-const client = redis.createClient(process.env.REDIS_URL)
 app.use(router)
 
+const categories = ["gloves", "facemasks", "beanies"]
 
-//client.set("transactions", 123, redis.print)
-//client.get("transactions", redis.print)
-//client.del("transactions", redis.print)
-
-
+categories.forEach(category => {
+  products.insertProductsIntoRedis(category)
+})
 
 app.listen(PORT, function() {
   console.log("Listening on port:", PORT);
