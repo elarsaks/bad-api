@@ -1,11 +1,15 @@
 const express = require('express');
-//const countries = require('../controller/countries.js');
+const products = require('../controller/products.js');
 
 const router = express.Router()
 
-//Get all from countries
-router.get('/', (req, res)=> { 
-    res.status(200).send('OK!')
+//Get all products from Reaktor api
+router.get('/:category', (req, res)=> { 
+    products.fetchProducts(req.params)
+    .then(resp => {
+        return res.send(resp)
+    })
+    .catch(err => err)
 });
 
 module.exports = router;

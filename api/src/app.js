@@ -11,9 +11,9 @@ const client = redis.createClient(process.env.REDIS_URL)
 app.use(router)
 
 
-client.set("transactions", 123, redis.print)
-client.get("transactions", redis.print)
-client.del("transactions", redis.print)
+//client.set("transactions", 123, redis.print)
+//client.get("transactions", redis.print)
+//client.del("transactions", redis.print)
 
 
 
