@@ -3,16 +3,13 @@ const fetch = require('node-fetch');
 
 const fetchAvailability = ( manufacturer ) => {
   return  fetch(' https://bad-api-assignment.reaktor.com/v2/availability/' + manufacturer, {
-    headers:{
-      // DEBUG
-      //'x-force-error-mode' : 'all'
-    },
+    // DEBUG: headers:{ 'x-force-error-mode' : 'all' }
     method: "GET",
   })
   .then(response => response.json())
-  .then(response => response.response.slice(1-2))
-
-  // Call fetchAvailability until it returns data
+  .then(response => response.response)
+  // Remove this debug
+  //.then(response => response.response.slice(1-2))
   .then(response => {  
     if (Array.isArray(response)) {
       return response

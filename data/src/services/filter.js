@@ -2,7 +2,7 @@ const cleanAvailabilityData = (rawData) => {
     let flatenedArray = rawData.flat()
     cleanedData = flatenedArray.map(e => {
        return {
-            id: e.id,
+            id: e.id.toLowerCase(),
             stock: cleanXmldata(e.DATAPAYLOAD)
         }
     })

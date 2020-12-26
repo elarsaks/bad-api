@@ -20,18 +20,25 @@ const insertProductsIntoPostgres = (productList) => {
     });
 }
 
+const insertStockIntoPostgres = (data) => {
+    return data.forEach(product => {
+        postgres.putStock(product, db)
+    });
+}
+
 const insertAvailabilityIntopostgres = (manufacturer) => {
     return postgres.getManufacturerList(db)
     .then(manufacturerList => getAvailabilityData(manufacturerList))
     .then(data => filter.cleanAvailabilityData(data))
-    .then(data => console.log(data))
-    // Find a place where to put error handling
+    .then(data => insertStockIntoPostgres(data))
+    // TODO: Find a good place for error handling.
     .catch(err => console.log(err))
 }
 
 const populatePostgres = (category) => {
     return reaktor.fetchProducts(category)
     .then(productList => insertProductsIntoPostgres(productList))
+    // .then(() => insertinsertAvailabilityIntopostgres)
 }
 
 module.exports = {
