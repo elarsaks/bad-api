@@ -26,7 +26,7 @@ const insertStockIntoPostgres = (data) => {
     });
 }
 
-const insertAvailabilityIntopostgres = (manufacturer) => {
+const insertAvailabilityIntopostgres = () => {
     return postgres.getManufacturerList(db)
     .then(manufacturerList => getAvailabilityData(manufacturerList))
     .then(data => filter.cleanAvailabilityData(data))
@@ -38,7 +38,7 @@ const insertAvailabilityIntopostgres = (manufacturer) => {
 const populatePostgres = (category) => {
     return reaktor.fetchProducts(category)
     .then(productList => insertProductsIntoPostgres(productList))
-    // .then(() => insertinsertAvailabilityIntopostgres)
+    .then(() => insertAvailabilityIntopostgres())
 }
 
 module.exports = {

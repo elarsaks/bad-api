@@ -8,8 +8,6 @@ const fetchAvailability = ( manufacturer ) => {
   })
   .then(response => response.json())
   .then(response => response.response)
-  // Remove this debug
-  //.then(response => response.response.slice(1-2))
   .then(response => {  
     if (Array.isArray(response)) {
       return response

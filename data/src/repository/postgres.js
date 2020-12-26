@@ -1,9 +1,10 @@
 const putStock = (product, db) => {
-    console.log(product.id)
     return db('products')
     .where({ id: product.id })
     .update({ instock: product.stock })
-    .then(resp => console.log(resp))
+    .then(resp => resp == 0 
+        ? console.log('Product is not in Database')
+        : console.log(`${product.id} stock value updated ${product.stock} .`))
     .catch(err => console.log(err))
 }
 
