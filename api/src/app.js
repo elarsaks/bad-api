@@ -1,5 +1,4 @@
 const express = require('express');
-const fetch = require('node-fetch');
 const router = require('./router/index.js')
 const products = require('./controller/products.js');
 
