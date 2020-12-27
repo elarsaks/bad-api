@@ -15,6 +15,13 @@ const getManufacturerList = (db) => {
         .catch(err => console.log(err))
 }
 
+const getProductsByCategory = (category, db) => {
+    return db.select('*')
+        .from('products')
+        .where({type: category})
+    .then(data => data.slice(1-3))
+}
+
 const postProduct = (product, db) => {
     return db('products').insert(product)
     .catch(err => console.log(err))
@@ -23,6 +30,7 @@ const postProduct = (product, db) => {
 
 module.exports = {
     getManufacturerList,
+    getProductsByCategory,
     postProduct,
     putStock,
 }

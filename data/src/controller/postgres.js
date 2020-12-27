@@ -6,11 +6,9 @@ const filter = require('../services/filter.js')
 
 const getAvailabilityData = (manufacturerList) => {
     let availabilityData = []
-
     manufacturerList.forEach(manufacturer => {
         availabilityData.push(reaktor.fetchAvailability(manufacturer.manufacturer)) 
     })
-
     return Promise.all(availabilityData) 
 }
 
@@ -31,7 +29,7 @@ const insertAvailabilityIntopostgres = () => {
     .then(manufacturerList => getAvailabilityData(manufacturerList))
     .then(data => filter.cleanAvailabilityData(data))
     .then(data => insertStockIntoPostgres(data))
-    // TODO: Find a good place for error handling.
+    // TODO: Find a better place for error handling.
     .catch(err => console.log(err))
 }
 

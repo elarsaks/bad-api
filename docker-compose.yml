@@ -51,14 +51,15 @@ services:
       - REDIS_URL=redis://redis:6379
       - pg
     depends_on:
-      - pg
       - redis
-    command: "sh -c \"./wait-for pg:5432 -- npm start\""
+      - pg
+    command: "sh -c \"./wait-for pg:5432 redis:6379 -- npm start\""
     environment: 
       DB_HOST: pg
       DB_USER: postgres
       DB_PASS: password
       DATABASE_URL: postgres://postgres:password@pg:5432/bad-api
+      REDIS_URL: redis://redis:6379
     restart: unless-stopped
     # Close ports for production
     ports:
