@@ -2,9 +2,14 @@ const putStock = (product, db) => {
     return db('products')
     .where({ id: product.id })
     .update({ instock: product.stock })
-    .then(resp => resp == 0 
-        ? console.log('Product is not in Database')
-        : console.log(`${product.id} stock value updated ${product.stock} .`))
+    .then(resp => {
+        if(resp == 0){
+            console.log(`Product "${product.id}" is not in database.`)
+        } else {
+            console.log(`${product.id} stock value updated ${product.stock}.`)
+        }
+        return resp
+    })
     .catch(err => console.log(err))
 }
 
@@ -26,7 +31,6 @@ const postProduct = (product, db) => {
     return db('products').insert(product)
     .catch(err => console.log(err))
 }
-
 
 module.exports = {
     getManufacturerList,

@@ -5,23 +5,19 @@ const db = require('knex')(config.development);
 const filter = require('../services/filter.js')
 
 const getAvailabilityData = (manufacturerList) => {
-    let availabilityData = []
-    manufacturerList.forEach(manufacturer => {
-        availabilityData.push(reaktor.fetchAvailability(manufacturer.manufacturer)) 
-    })
+    let availabilityData = manufacturerList.map(manufacturer => 
+        reaktor.fetchAvailability(manufacturer.manufacturer))
     return Promise.all(availabilityData) 
 }
 
 const insertProductsIntoPostgres = (productList) => {
-    return productList.forEach(product => {
-        postgres.postProduct(product, db)
-    });
+    let response = productList.map(product => postgres.postProduct(product, db))
+    return Promise.all(response)
 }
 
 const insertStockIntoPostgres = (data) => {
-    return data.forEach(product => {
-        postgres.putStock(product, db)
-    });
+    let response = data.map(product => postgres.putStock(product, db))
+    return Promise.all(response)
 }
 
 const insertAvailabilityIntopostgres = () => {
@@ -33,11 +29,11 @@ const insertAvailabilityIntopostgres = () => {
     .catch(err => console.log(err))
 }
 
-const populatePostgres = (category) => {
-    return reaktor.fetchProducts(category)
-    .then(productList => insertProductsIntoPostgres(productList))
-    .then(() => insertAvailabilityIntopostgres())
-}
+const populatePostgres = (categories) => {
+    let allCategoriesData = categories.map(category => reaktor.fetchProducts(category))
+    return Promise.all(allCategoriesData)
+        .then(productList => insertProductsIntoPostgres(productList))
+ }
 
 module.exports = {
     populatePostgres,
