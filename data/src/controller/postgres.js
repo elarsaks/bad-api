@@ -4,6 +4,10 @@ const config = require('../config/knexfile.js');
 const db = require('knex')(config.development);
 const filter = require('../services/filter.js')
 
+const deleteAllProducts = () => {
+    return postgres.deleteAllProducts(db)
+}
+
 const getAvailabilityData = (manufacturerList) => {
     let availabilityData = manufacturerList.map(manufacturer => 
         reaktor.fetchAvailability(manufacturer.manufacturer))
@@ -36,6 +40,7 @@ const populatePostgres = (categories) => {
  }
 
 module.exports = {
+    deleteAllProducts,
     populatePostgres,
     insertAvailabilityIntopostgres,
 }

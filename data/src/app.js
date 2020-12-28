@@ -12,33 +12,25 @@ function createTimeStamp(){
 }
 
 function populateDatabase(){
-    postgres.populatePostgres(["gloves", "facemasks", "beanies"])
+    postgres.deleteAllProducts()
+    .then(() => postgres.populatePostgres(["gloves", "facemasks", "beanies"]))
     .then(() => postgres.insertAvailabilityIntopostgres())
     .then(() => console.log("Postgres database updated!" ))
 }
-
-/* Node CRON time symbols
-# ┌────────────── second (optional)
-# │ ┌──────────── minute
-# │ │ ┌────────── hour
-# │ │ │ ┌──────── day of month
-# │ │ │ │ ┌────── month
-# │ │ │ │ │ ┌──── day of week
-# │ │ │ │ │ │
-# * * * * * *               */
 
 // Update 'products' data in PostgreSQL every Sunday midnight at 00:30
 cron.schedule('00 30 00 * * 7', () => {
     console.log(createTimeStamp())
     console.log('Update products data in PostgreSQL.')
-  //  postgres.insertAvailabilityIntopostgres()
+    populateDatabase()
 });
 
 // Update 'stock' in PostgreSQL after every 1 hour
-cron.schedule('* * * * * 1', () => {
+cron.schedule('00 04 * * * *', () => {
     console.log(createTimeStamp())
-    //console.log('Update availability data in PostgreSQL.')
-    //postgres.insertAvailabilityIntopostgres()
+    console.log('Update availability data in PostgreSQL.')
+    postgres.insertAvailabilityIntopostgres()
+    .then(() => console.log("Stock in Postgres database updated!" ))
 });
 
 // App is set to listen to port just to keep it running.
