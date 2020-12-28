@@ -16,58 +16,59 @@ services:
   #    - "./client/package.json:/app/package.json"
   #    - "./client/package-lock.json:/app/package-lock.json"
   # Redis Client API
-  #api:
-  #  container_name: api
-  #  build: 
-  #    context: ./api/
-  #  command: "sh -c \"npm start\""
-  #  links:
-  #    - redis
-  #  environment:
-  #    - REDIS_URL=redis://redis:6379
-  #  restart: unless-stopped
-  #  ports:
-  #    - 3001:3001
-  #  volumes:
-  #    - "./api/src/:/app/src"
-  #    - "./api/package.json:/app/package.json"
-   #   - "./api/package-lock.json:/app/package-lock.json"
-  # Redis
-  redis:
-    image: redis:alpine
-    ## Check if this works
-    #volumes:
-    #  - ./redis.conf:/usr/local/etc/redis/redis.conf
-    expose:
-      - 6379
+  api:
+    container_name: api
+    build: 
+      context: ./api/
+      dockerfile: Dockerfile
+    command: "sh -c \"./wait-for pg:5432 redis:6379 -- npm start\""
+    environment:
+    ## TODO store DB connections in separate config file
+      DB_HOST: pg
+      DB_USER: postgres
+      DB_PASS: password
+      DATABASE_URL: postgres://postgres:password@pg:5432/bad-api
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - redis
+      - pg
+    restart: unless-stopped
+    ports:
+      - 3001:3001
+    volumes:
+      - "./api/src/:/app/src"
+      - "./api/package.json:/app/package.json"
+      - "./api/package-lock.json:/app/package-lock.json"
   # Proxy API
   proxy:
     container_name: proxy
     build: 
       context: ./data/
       dockerfile: Dockerfile.proxy
-    command: "sh -c \"npm start\""
-    environment:
-      - REDIS_URL=redis://redis:6379
-      - pg
-    depends_on:
-      - redis
-      - pg
     command: "sh -c \"./wait-for pg:5432 redis:6379 -- npm start\""
-    environment: 
+    environment:
+      ## TODO store DB connections in separate config file
       DB_HOST: pg
       DB_USER: postgres
       DB_PASS: password
       DATABASE_URL: postgres://postgres:password@pg:5432/bad-api
       REDIS_URL: redis://redis:6379
+    depends_on:
+      - redis
+      - pg
     restart: unless-stopped
-    # Close ports for production
-    ports:
-      - 3002:3002
     volumes:
       - "./data/src/:/app/src"
       - "./data/package.json:/app/package.json"
       - "./data/package-lock.json:/app/package-lock.json"
+  # Redis
+  redis:
+    image: redis:alpine
+    ## TODO: Redis config file
+    #volumes:
+    #  - ./redis.conf:/usr/local/etc/redis/redis.conf
+    expose:
+      - 6379
   #PostGreSQL
   pg:
     build:

@@ -1,7 +1,11 @@
 const redis = require('redis')
-const REDIS_URL = 6379
 const client = redis.createClient(process.env.REDIS_URL)
 
+client.on("error", function(error) {
+    console.error(error);
+  });
+
+/*
 const insertProducts = (product) => {
     return client.hmset(product.id, [
         'id', product.id,
@@ -22,9 +26,9 @@ const getAllKeys = () => {
             console.log(keys[i]);
         }
     });  
-}
+} */
 
 module.exports = {
-    insertProducts,
-    getAllKeys,
+   //insertProducts,
+    //getAllKeys,
   }

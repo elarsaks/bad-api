@@ -47,5 +47,6 @@ app.listen(PORT, function() {
     setTimeout(() => console.log('Loading data ...'), 2000);
   
     // Populate database during installation
-    populateDatabase()
+    // TODO: uncomment it when finished with development
+    //populateDatabase()
 })
