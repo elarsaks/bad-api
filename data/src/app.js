@@ -16,6 +16,8 @@ function populateDatabase(){
     .then(() => postgres.populatePostgres(["gloves", "facemasks", "beanies"]))
     .then(() => postgres.insertAvailabilityIntopostgres())
     .then(() => console.log("Postgres database updated!" ))
+    .then(() => redis.updateProductsInredis(["gloves", "facemasks", "beanies"]))
+    .then(() => console.log('APP IS READY FOR USE!'))
 }
 
 // Update 'products' data in PostgreSQL every Sunday midnight at 00:30
@@ -26,11 +28,16 @@ cron.schedule('00 30 00 * * 7', () => {
 });
 
 // Update 'stock' in PostgreSQL after every 1 hour
-cron.schedule('00 04 * * * *', () => {
+// It is currently set to update every hours firs minute.
+// To test CRON, change 01 into the minute you want to be it running at. 
+// For example, if for you it is, 11:35, change 01 to be 40. Then it will run at 11:40.
+cron.schedule('00 01 * * * *', () => {
     console.log(createTimeStamp())
     console.log('Update availability data in PostgreSQL.')
     postgres.insertAvailabilityIntopostgres()
-    .then(() => console.log("Stock in Postgres database updated!" ))
+    .then(() => console.log("Stock in Postgres database updated!"))
+    .then(() => redis.updateProductsInredis(["gloves", "facemasks", "beanies"]))
+    .then(() => console.log('APP IS READY FOR USE!'))
 });
 
 // App is set to listen to port just to keep it running.
@@ -41,26 +48,4 @@ app.listen(PORT, function() {
   
     // Populate database during installation
     populateDatabase()
-  
 })
-
-
-
-
-
-
-/*
- Take redis updates into redis_client_api
-
-// Make this a function, so that Redis can be populated after that
-categories.forEach(category => {
-   // postgres.populatePostgres(category)
-})
-
-
-app.get('/', function (req, res) {
-    redis.updateProductsInredis("beanies")
-   // .then(() => console.log('APP IS Ready FOR USE!') )
-})
-
-*/
