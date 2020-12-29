@@ -45,16 +45,14 @@ services:
     build: 
       context: ./data/
       dockerfile: Dockerfile.proxy
-    command: "sh -c \"./wait-for pg:5432 redis:6379 -- npm start\""
+    command: "sh -c \"./wait-for pg:5432 -- npm start\""
     environment:
       ## TODO store DB connections in separate config file
       DB_HOST: pg
       DB_USER: postgres
       DB_PASS: password
       DATABASE_URL: postgres://postgres:password@pg:5432/bad-api
-      REDIS_URL: redis://redis:6379
     depends_on:
-      - redis
       - pg
     restart: unless-stopped
     volumes:

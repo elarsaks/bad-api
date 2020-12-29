@@ -19,7 +19,7 @@ const getProductsByCategory = (category, db) => {
         .from('products')
         .where({type: category})
     // REMOVE DEBUG!
-    .then(data => data.slice(1-3))
+    //.then(data => data.slice(1-3))
 }
 
 const postProduct = (product, db) => {

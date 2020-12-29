@@ -1,7 +1,7 @@
 {
   "name": "data",
   "version": "1.0.0",
-  "description": "Proxy api to update database",
+  "description": "Proxy application between Reaktor api this application database.",
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js"
@@ -16,7 +16,6 @@
     "knex": "^0.21.14",
     "node-cron": "^2.0.3",
     "node-fetch": "^2.6.1",
-    "pg": "^8.5.1",
-    "redis": "^3.0.2"
+    "pg": "^8.5.1"
   }
 }

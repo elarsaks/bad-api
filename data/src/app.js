@@ -1,6 +1,5 @@
 const express = require('express');
-const postgres = require('./controller/postgres.js');
-const redis = require('./controller/redis.js');
+const postgres = require('./controller/controller.js');
 var cron = require('node-cron');
 
 const PORT = process.env.PORT || 3002;
@@ -15,13 +14,11 @@ function populateDatabase(){
     postgres.deleteAllProducts()
     .then(() => postgres.populatePostgres(["gloves", "facemasks", "beanies"]))
     .then(() => postgres.insertAvailabilityIntopostgres())
-    .then(() => console.log("Postgres database updated!" ))
-    .then(() => redis.updateProductsInredis(["gloves", "facemasks", "beanies"]))
-    .then(() => console.log('APP IS READY FOR USE!'))
+    .then(() => console.log("Postgres database updated!", '\n', "App is ready for use!"))
 }
 
-// Update 'products' data in PostgreSQL every Sunday midnight at 00:30
-cron.schedule('00 30 00 * * 7', () => {
+// Update 'products' data in PostgreSQL every midnight at 00:30
+cron.schedule('00 30 00 * * *', () => {
     console.log(createTimeStamp())
     console.log('Update products data in PostgreSQL.')
     populateDatabase()
@@ -36,8 +33,6 @@ cron.schedule('00 01 * * * *', () => {
     console.log('Update availability data in PostgreSQL.')
     postgres.insertAvailabilityIntopostgres()
     .then(() => console.log("Stock in Postgres database updated!"))
-    .then(() => redis.updateProductsInredis(["gloves", "facemasks", "beanies"]))
-    .then(() => console.log('APP IS READY FOR USE!'))
 });
 
 // App is set to listen to port just to keep it running.
@@ -48,5 +43,5 @@ app.listen(PORT, function() {
   
     // Populate database during installation
     // TODO: uncomment it when finished with development
-    // populateDatabase()
+    populateDatabase()
 })

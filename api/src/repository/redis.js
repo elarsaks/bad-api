@@ -10,11 +10,12 @@ client.on("error", function(error) {
 const getProductsByCategory = (req, res, next) => {
     const category = req.params.category
 
-    return client.hgetall(category, function(err, reply){
+    return client.hgetall('category', function(err, reply){
         if (err){console.log(err)}
 
         if(reply !== null){
-            res.send(reply)
+            let resp = JSON.parse(reply.data)
+            res.send(resp)
         } else {
             next()
         }
@@ -24,7 +25,7 @@ const getProductsByCategory = (req, res, next) => {
 const setProductsByCategory = (category, data) => {
     return client.hmset(category, {
         category: category,
-        data: JSON.stringify(data),
+        data: 'JSON.stringify(data)',
     }, 
     (err) => err 
         ? console.log(err) 
