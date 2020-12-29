@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router()
+const controller = require('../controller/controller.js');
+const redis = require('../repository/redis.js');
 
 // Provide information about API links
 router.get('/', (req, res) => {
@@ -9,14 +11,11 @@ router.get('/', (req, res) => {
       },
     });
 })
+ 
+router.get('/products/:category',
+  redis.getProductsByCategory,
+  controller.getProductsByCategory
+  );
 
-//Get all products from Reaktor api
-router.get('/products/:category', (req, res)=> { 
-  products.fetchProducts(req.params)
-  .then(resp => {
-      return res.send(resp)
-  })
-  .catch(err => err) 
-});
 
 module.exports = router;

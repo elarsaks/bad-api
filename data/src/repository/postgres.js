@@ -18,6 +18,7 @@ const getProductsByCategory = (category, db) => {
     return db.select('*')
         .from('products')
         .where({type: category})
+    // REMOVE DEBUG!
     .then(data => data.slice(1-3))
 }
 
