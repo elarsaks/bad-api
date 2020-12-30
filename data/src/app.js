@@ -38,10 +38,7 @@ cron.schedule('00 01 * * * *', () => {
 // App is set to listen to port just to keep it running.
 app.listen(PORT, function() {
     console.log("APP is running.");
-    setTimeout(() => console.log('Please wait.'), 1000);
-    setTimeout(() => console.log('Loading data ...'), 2000);
-  
     // Populate database during installation
     // TODO: uncomment it when finished with development
-    populateDatabase()
+    //populateDatabase()
 })
