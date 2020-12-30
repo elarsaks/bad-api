@@ -23,6 +23,7 @@ const store = new Vuex.Store({
     actions: {
         onGetProducts:({ commit }, category ) => {
             // TODO: error handling
+            console.log(category)
             return Products.getProducts(category)
                 .then(products => {
                     commit(ACTION_TYPES.getProducts, {category, products: products.data})
