@@ -2,31 +2,19 @@
   <v-app>
     <AppBar />
     <div id="table-wrapper">
+      <PageMenu 
+        :buttons="categories"
+      />
        <div class="text-center pt-2">
-
-       <div class="pagination-wrapper">
-          <v-pagination
-              v-model="page"
-              :length="pageCount"
-          ></v-pagination>
-       </div>
-
         <v-data-table
           :headers="headers"
           :items="products[this.selected]"
-          :page.sync="page"
-          :items-per-page="itemsPerPage"
+          :items-per-page="products[this.selected].length"
+          :loading="products[this.selected].length < 1"
+          loading-text="Loading... Please wait"
           hide-default-footer
           class="elevation-1"
-          @page-count="pageCount = $event"
         ></v-data-table>
-
-        <div class="pagination-wrapper">
-            <v-pagination
-                v-model="page"
-                :length="pageCount"
-            ></v-pagination>
-        </div>
       </div>
     </div>
     <Footer />
@@ -36,36 +24,29 @@
 <script>
 import AppBar from './components/AppBar';
 import Footer from './components/Footer';
+import PageMenu from './components/PageMenu';
 import { mapState } from 'vuex'
 
 export default {
   name: 'App',
-
   components: {
     AppBar,
-    Footer
+    Footer,
+    PageMenu,
   },
-
   data() {
     return {
       selected: 'beanies',
       categories: ['gloves', 'facemasks', 'beanies'],
-      loading: true,
-      page: 1,
-      pageCount: 0,
-      itemsPerPage: 25,
+      // Is loading needed after routing?
+      loading: false,
       headers: [
-        {
-          text: 'Name',
-          align: 'start',
-          sortable: false,
-          value: 'name',
-        },
-        { text: 'Type', value: 'type' },
-        { text: 'Manufacturer', value: 'manufacturer' },
-        { text: 'Price', value: 'price' },
-        { text: 'Colors', value: 'color' },
-        { text: 'Stock', value: 'instock' },
+        { text: 'Name', align: 'start', sortable: false, value: 'name'},
+        { text: 'Type', sortable: false, value: 'type'},
+        { text: 'Manufacturer', sortable: false, value: 'manufacturer' },
+        { text: 'Price', sortable: false, value: 'price' },
+        { text: 'Colors', sortable: false, value: 'color' },
+        { text: 'Stock', sortable: false, value: 'instock' },
       ],
     }
   },
