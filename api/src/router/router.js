@@ -3,6 +3,12 @@ const router = express.Router()
 const controller = require('../controller/controller.js');
 const redis = require('../repository/redis.js');
 
+// TODO: configure router
+router.use((req, res, next)=>{
+  res.header("Access-Control-Allow-Origin", "*")
+  next()
+})
+
 // Provide information about API links
 router.get('/', (req, res) => {
     res.send({
