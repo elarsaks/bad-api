@@ -29,19 +29,21 @@
         </div>
       </div>
     </div>
-
+    <Footer />
   </v-app>
 </template>
 
 <script>
 import AppBar from './components/AppBar';
+import Footer from './components/Footer';
 import { mapState } from 'vuex'
 
 export default {
   name: 'App',
 
   components: {
-    AppBar
+    AppBar,
+    Footer
   },
 
   data() {
@@ -90,7 +92,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 #table-wrapper{
   width: 90vw;
@@ -99,7 +100,7 @@ export default {
 }
 
 .pagination-wrapper{
-  width: 50%;
+  width: 70%;
     margin-left: auto;
   margin-right: auto;
 }
