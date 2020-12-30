@@ -6,11 +6,9 @@ const postgres = require('../repository/postgres.js')
 
 
 const getProductsByCategory = (req, res, next) => {
-    const category = req.params.category
-
-    postgres.getProductsByCategory(category, db)
+    postgres.getProductsByCategory(req.params.category, db)
     .then(data => {
-        redis.setProductsByCategory(category, data.slice(1-3))
+        redis.setProductsByCategory(req.params.category, data)
         res.send(data)
     })
 } 
