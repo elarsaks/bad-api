@@ -3,13 +3,16 @@
        <div class="text-center pt-2">
         <v-data-table
           :headers="headers"
-          :items="products[this.$route.name]"
-          :items-per-page="products[this.$route.name].length"
-          :loading="products[this.$route.name].length < 1"
+          :items="activeProducts"
+          :items-per-page="activeProducts.length"
+          :loading="activeProducts.length < 1"
           loading-text="Loading... Please wait"
           hide-default-footer
           class="elevation-1"
-        ></v-data-table>
+          dense
+          disable-pagination
+        >
+        </v-data-table>
       </div>
     </div>
 </template>
@@ -21,7 +24,6 @@ export default {
   name: 'DataTable',
   data() {
     return {
-      selected: 'beanies',
       headers: [
         { text: 'Name', align: 'start', sortable: false, value: 'name'},
         { text: 'Type', sortable: false, value: 'type'},
@@ -32,10 +34,15 @@ export default {
       ],
     }
   },
+  methods: {
+  },
   computed: {
     ...mapState({
     products: state => state.products,
     }),
+    activeProducts(){
+      return this.products[this.$route.name]
+    },
   },
 }
 </script>
@@ -46,5 +53,10 @@ export default {
   width: 90vw;
   margin-left: auto;
   margin-right: auto;
+}
+
+#virtual-scroll-table {
+  max-height: 80vh;
+  overflow: auto;
 }
 </style>
