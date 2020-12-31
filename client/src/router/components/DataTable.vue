@@ -1,7 +1,17 @@
 <template>
     <div id="table-wrapper">
+      <v-alert
+        v-if="error"
+        border="right"
+        colored-border
+        type="error"
+        elevation="2"
+      >
+        <p> Error: Oops something went wrong :( Please contact system administrator.</p>
+      </v-alert>
        <div class="text-center pt-2">
         <v-data-table
+          v-if="!error"
           :headers="headers"
           :items="products"
           :items-per-page="products.length"
@@ -52,7 +62,10 @@ export default {
           this.loading = false
           this.products = products
         })
-        .catch(err => this.error = err)
+        .catch(err => {
+          console.log(err)
+          this.error = err
+        })
     }
   },
 }
