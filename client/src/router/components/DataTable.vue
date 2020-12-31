@@ -3,9 +3,9 @@
        <div class="text-center pt-2">
         <v-data-table
           :headers="headers"
-          :items="activeProducts"
-          :items-per-page="activeProducts.length"
-          :loading="activeProducts.length < 1"
+          :items="products"
+          :items-per-page="products.length"
+          :loading="loading"
           loading-text="Loading... Please wait"
           hide-default-footer
           class="elevation-1"
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import Products from '../../repository/Products.js'
 
 export default {
   name: 'DataTable',
@@ -32,17 +32,28 @@ export default {
         { text: 'Colors', sortable: false, value: 'color' },
         { text: 'Stock', sortable: false, value: 'instock' },
       ],
+      loading: false,
+      products: [],
+      error: null,
     }
   },
-  methods: {
+  created(){
+    this.fetchData()
   },
-  computed: {
-    ...mapState({
-    products: state => state.products,
-    }),
-    activeProducts(){
-      return this.products[this.$route.name]
-    },
+  watch:{
+   $route: 'fetchData'
+  } ,
+  methods: {
+    fetchData () {
+      this.loading = true
+
+      Products.getProducts(this.$route.name)
+        .then(products => {
+          this.loading = false
+          this.products = products
+        })
+        .catch(err => this.error = err)
+    }
   },
 }
 </script>

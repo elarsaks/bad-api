@@ -5,8 +5,8 @@ function getProducts(category) {
     url: `http://localhost:3001/products/${category}`,
     method: "GET",
   })
-  // TODO: proper error handling
-  .catch(err => console.log(err))
+  .then(resp => resp.data)
+  .catch(err => err)
 }
 
 module.exports = { getProducts }
