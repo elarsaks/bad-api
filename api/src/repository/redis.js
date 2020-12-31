@@ -25,7 +25,8 @@ const getProductsByCategory = (req, res, next) => {
 }
 
 const setProductsByCategory = (category, data) => {
-    return client.set(category, JSON.stringify(data), (err) => {
+    // Set category data into redis with time to live 300s / 60 = 5 minutes
+    return client.set(category, JSON.stringify(data), 'EX', 300, (err) => {
         if(err){
             res.send(JSON.parse(reply.data))
         } else {
