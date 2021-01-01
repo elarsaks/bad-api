@@ -1,30 +1,59 @@
 <template>
-    <div id="table-wrapper">
-      <v-alert
-        v-if="error"
-        border="right"
-        colored-border
-        type="error"
-        elevation="2"
+  <div id="table-wrapper">
+    <v-alert
+      v-if="error"
+      border="right"
+      colored-border
+      type="error"
+      elevation="2"
+    >
+      <p> Error: Oops something went wrong :( Please contact system administrator.</p>
+    </v-alert>
+
+    <v-progress-linear
+        v-if="loading"
+        value="15" 
+      />
+
+    <table>
+      <tr >
+        <th class="table-header"> Name </th>
+        <th class="table-header"> Manufacturer </th>
+        <th class="table-header"> Colors </th>
+        <th class="table-header"> Price </th>
+        <th class="table-header"> Stock </th>
+      </tr>
+    </table>
+
+    <v-card
+      elevation="16"
+      :max-width="width * 0.9"
+      class="mx-auto"
+    >
+      <v-virtual-scroll
+        :bench="benched"
+        :items="products"
+        :height="height"
+        item-height="50"
       >
-        <p> Error: Oops something went wrong :( Please contact system administrator.</p>
-      </v-alert>
-       <div class="text-center pt-2">
-        <v-data-table
-          v-if="!error"
-          :headers="headers"
-          :items="products"
-          :items-per-page="products.length"
-          :loading="loading"
-          loading-text="Loading... Please wait"
-          hide-default-footer
-          class="elevation-1"
-          dense
-          disable-pagination
-        >
-        </v-data-table>
-      </div>
-    </div>
+        <template v-slot:default="{ item }">
+          <v-list-item :key="item.id">
+            <v-list-item-content>
+              <tr >
+                <td class="table-cell"> {{ item.name }} </td>
+                <td class="table-cell" > {{ item.manufacturer }} </td>
+                <td class="table-cell" > {{ item.color.toString()}} </td>
+                <td class="table-cell" > {{ item.price }} € </td>
+                <td class="table-cell"> {{ item.instock }} </td>
+              </tr>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-divider />
+          </template>
+      </v-virtual-scroll>
+    </v-card> 
+  </div>
 </template>
 
 <script>
@@ -34,14 +63,6 @@ export default {
   name: 'DataTable',
   data() {
     return {
-      headers: [
-        { text: 'Name', align: 'start', sortable: false, value: 'name'},
-        { text: 'Type', sortable: false, value: 'type'},
-        { text: 'Manufacturer', sortable: false, value: 'manufacturer' },
-        { text: 'Price', sortable: false, value: 'price' },
-        { text: 'Colors', sortable: false, value: 'color' },
-        { text: 'Stock', sortable: false, value: 'instock' },
-      ],
       loading: false,
       products: [],
       error: null,
@@ -50,23 +71,31 @@ export default {
   created(){
     this.fetchData()
   },
+  computed:{
+    height(){
+      return window.innerHeight
+    },
+    width(){
+      return window.innerWidth
+    }
+  },
   watch:{
-   $route: 'fetchData'
-  } ,
+    $route: 'fetchData'
+  },
   methods: {
     fetchData () {
       this.loading = true
 
       Products.getProducts(this.$route.name)
         .then(products => {
-          this.loading = false
+         this.loading = false
           this.products = products
         })
         .catch(err => {
           console.log(err)
           this.error = err
         })
-    }
+    },
   },
 }
 </script>
@@ -79,8 +108,13 @@ export default {
   margin-right: auto;
 }
 
-#virtual-scroll-table {
-  max-height: 80vh;
-  overflow: auto;
+.table-header {
+  width: 17.5vw;
 }
+
+.table-cell {
+  text-align: center;
+  width: 18vw;
+}
+
 </style>
