@@ -5,6 +5,7 @@ function getProducts(category) {
     url: `http://localhost:3001/products/${category}`,
     method: "GET",
   })
+  .then(resp => resp.data)
   .catch(err => err)
 }
 
