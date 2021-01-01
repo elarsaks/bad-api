@@ -40,5 +40,5 @@ app.listen(PORT, function() {
     console.log("APP is running.");
     // Populate database during installation
     // TODO: uncomment it when finished with development
-    populateDatabase()
+    //populateDatabase()
 })
