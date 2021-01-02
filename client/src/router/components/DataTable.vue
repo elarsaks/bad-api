@@ -31,8 +31,9 @@
       class="mx-auto"
     >
       <v-virtual-scroll
+        bench="5"
         :items="products"
-        :height="height"
+        :height="height * 0.85"
         item-height="50"
       >
         <template v-slot:default="{ item }">
@@ -90,7 +91,10 @@ export default {
          this.loading = false
           this.products = products
         })
-        .catch(err => this.error = err)
+        .catch(err => {
+          console.log(err)
+          this.error = err
+        })
     },
   },
 }
