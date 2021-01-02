@@ -21,8 +21,7 @@ router.get('/', (req, res) => {
 // Check if Redis has data, if not fetch it from Postgres
 router.get('/products/:category',
   redis.getProductsByCategory,
-  controller.getProductsByCategory
-);
-
+  controller.getRequestedProducts
+)
 
 module.exports = router;

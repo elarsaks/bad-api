@@ -6,8 +6,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(router)
 
-
 app.listen(PORT, function() {
-  console.log("Listening on port:", PORT);
+  console.log("Redis client api listening on port:", PORT);
 })
  
