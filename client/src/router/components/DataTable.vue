@@ -31,7 +31,6 @@
       class="mx-auto"
     >
       <v-virtual-scroll
-        :bench="benched"
         :items="products"
         :height="height"
         item-height="50"
@@ -91,10 +90,7 @@ export default {
          this.loading = false
           this.products = products
         })
-        .catch(err => {
-          console.log(err)
-          this.error = err
-        })
+        .catch(err => this.error = err)
     },
   },
 }
