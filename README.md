@@ -22,8 +22,10 @@ Development-local | http://localhost:8080/ && http://localhost:3001/
 
 ### Reaktor API
 Legacy API provided by the client
-* Has 2 API endpoints: 1.-products data, 2.-products stock situation
-* Has cache 5 minutes
+* Has 2 API endpoints:  
+  1.-products data  
+  2.-products stock situation  
+* Has cache 5 minutes  
 
 Known errors:
 * API endpoint nr.2 sometimes returns an empty array
