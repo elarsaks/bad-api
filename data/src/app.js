@@ -24,11 +24,9 @@ cron.schedule('00 30 00 * * *', () => {
     populateDatabase()
 });
 
-// Update 'stock' in PostgreSQL after every 1 hour
-// It is currently set to update every hours firs minute.
-// To test CRON, change 01 into the minute you want to be it running at. 
-// For example, if for you it is, 11:35, change 01 to be 40. Then it will run at 11:40.
-cron.schedule('00 01 * * * *', () => {
+/* Update 'stock' in PostgreSQL after every 5 minutes, during workdays,
+*  between 6:00 and 17:00 */
+cron.schedule('00 */5 06-17 * * 0-5', () => {
     console.log(createTimeStamp())
     console.log('Update availability data in PostgreSQL.')
     postgres.insertAvailabilityIntopostgres()
@@ -40,5 +38,5 @@ app.listen(PORT, function() {
     console.log("APP is running.");
     // Populate database during installation
     // TODO: uncomment it when finished with development
-    populateDatabase()
+    //populateDatabase()
 })

@@ -35,8 +35,7 @@ Known errors:
 * Fetches data from legacy API and feeds it into current API-s Postgres DB
 * Schedules data fetching as follows: 
     1. Api endpoint nr.1 - Every midnight
-    <!-- TODO: Change into - During workdays from 6-17 a clock, after every 5 minutes. -->
-    2. Api endpoint nr.2 - After every 5 minutes
+    2. Api endpoint nr.2 - During workdays between 6:00 and 17:00 a clock, after every 5 minutes.  
 * Cleans data coming from legacy API
 
 ### Postgres
