@@ -18,7 +18,7 @@ Development-local|http://localhost:8080/ && http://localhost:3001/
   4. Test it on on http://localhost:8080/ && http://localhost:3001/
 
 ## Architecture
-<img src="http://co2pop.s3.eu-north-1.amazonaws.com/architecture.png" />
+<img src="https://bad-api.s3.eu-north-1.amazonaws.com/architecture.png" />
 
 ### Reaktor api
 Legacy api provided by client
