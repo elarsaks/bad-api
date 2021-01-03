@@ -2,9 +2,9 @@
 Repository for Reaktor job application
 
 ## Environments
-Environment|URL
-Testing| http://35.228.187.83:8080/ && http://35.228.187.83:3001/  
-Development-local|http://localhost:8080/ && http://localhost:3001/
+Environment | URL  
+Testing | http://35.228.187.83:8080/ && http://35.228.187.83:3001/  
+Development-local | http://localhost:8080/ && http://localhost:3001/
 
 ## Local development
 ### Prerequisites
