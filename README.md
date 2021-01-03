@@ -3,7 +3,7 @@ Repository for Reaktor job application
 
 ## Environments
 Environment|URL
-Testing| http://35.228.187.83:8080/ && http://35.228.187.83:3001/
+Testing| http://35.228.187.83:8080/ && http://35.228.187.83:3001/  
 Development-local|http://localhost:8080/ && http://localhost:3001/
 
 ## Local development
@@ -33,7 +33,8 @@ Known errors:
 * Fetches data from legacy api and feeds it into current api-s Postgres DB
 * Schedules data fetching as follows: 
     1. Api endpoint nr.1 - Every midnight
-    2. Api endpoint nr.2 - Currently after every 5 minutes - will be changed to - During workdays from 6-17 a clock, after every 5 minutes.
+    <!-- TODO: Change into - During workdays from 6-17 a clock, after every 5 minutes. -->
+    2. Api endpoint nr.2 - After every 5 minutes
 * Cleans data coming from legacy api
 
 ### Postgres
