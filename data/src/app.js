@@ -27,7 +27,6 @@ cron.schedule('00 30 00 * * *', () => {
   populateDatabase()
 })
 
-<<<<<<< HEAD
 /* Update 'stock' in PostgreSQL after every 5 minutes, during workdays, between 6:00 and 17:00 a clock. */
 cron.schedule('00 */5 06-17 * * 0-5', () => {
   console.log(createTimeStamp())
@@ -36,16 +35,6 @@ cron.schedule('00 */5 06-17 * * 0-5', () => {
     .insertAvailabilityIntopostgres()
     .then(() => console.log('Stock in Postgres database updated!'))
 })
-=======
-/* Update 'stock' in PostgreSQL after every 5 minutes, during workdays,
-*  between 6:00 and 17:00 */
-cron.schedule('00 */5 06-17 * * 0-5', () => {
-    console.log(createTimeStamp())
-    console.log('Update availability data in PostgreSQL.')
-    postgres.insertAvailabilityIntopostgres()
-    .then(() => console.log("Stock in Postgres database updated!"))
-});
->>>>>>> master
 
 // App is set to listen to port just to keep it running.
 app.listen(PORT, function () {
