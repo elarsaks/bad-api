@@ -16,7 +16,7 @@ const getProductsByCategory = (req, res, next) => {
   // Set client cache for 5 minutes
   res.set({ 'Cache-Control': 'max-age=300' })
 
-  return client.get('req.params.category', (err, reply) => {
+  return client.get(req.params.category, (err, reply) => {
     if (reply !== null) {
       res.send(JSON.parse(reply))
     } else {
