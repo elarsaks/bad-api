@@ -1,4 +1,3 @@
-const reaktor = require('../repository/reaktor.js')
 const postgres = require('../repository/postgres.js')
 const config = require('../config/knexfile.js')
 const db = require('knex')(config.development)

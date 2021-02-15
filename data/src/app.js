@@ -26,6 +26,7 @@ function updateAvailabilityData() {
     .getManufacturerList()
     .then((manufacturerList) => reaktor.getAvailabilityData(manufacturerList))
     .then((data) => postgres.insertAvailabilityIntoPostgres(data))
+    .then(() => console.log('Postgres database updated!'))
 }
 
 // Update 'products' data in PostgreSQL every midnight at 00:30
@@ -37,14 +38,11 @@ cron.schedule('00 30 00 * * *', () => {
 // Update 'stock' in PostgreSQL after every 5 minutes, during workdays, between 6:00 and 17:00 a clock. */
 cron.schedule('00 */5 06-17 * * 0-5', () => {
   console.log(`${timeStamp()} - Update availability data in PostgreSQL.`)
-  updateAvailabilityData().then(() =>
-    console.log('Stock in Postgres database updated!')
-  )
+  updateAvailabilityData()
 })
 
 // App is set to listen to port just to keep it running.
 app.listen(PORT, function () {
   console.log('APP is running.')
-  // Populate database during installation
   populateDatabase()
 })

@@ -18,8 +18,6 @@ const getManufacturerList = (db) => {
 
 const getProductsByCategory = (category, db) => {
   return db.select('*').from('products').where({ type: category })
-  // REMOVE DEBUG!
-  //.then(data => data.slice(1-3))
 }
 
 const postProduct = (product, db) => {

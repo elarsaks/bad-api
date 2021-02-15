@@ -1,14 +1,11 @@
-const { response } = require('express')
 const fetch = require('node-fetch')
+const apiLink = 'https://bad-api-assignment.reaktor.com/v2'
 
 const fetchAvailability = (manufacturer) => {
-  return fetch(
-    ' https://bad-api-assignment.reaktor.com/v2/availability/' + manufacturer,
-    {
-      // DEBUG: headers:{ 'x-force-error-mode' : 'all' }
-      method: 'GET',
-    }
-  )
+  return fetch(apiLink + '/availability/' + manufacturer, {
+    // DEBUG: headers:{ 'x-force-error-mode' : 'all' }
+    method: 'GET',
+  })
     .then((response) => response.json())
     .then((response) => response.response)
     .then((response) => {
@@ -25,12 +22,7 @@ const fetchAvailability = (manufacturer) => {
 }
 
 const fetchProducts = (category) => {
-  return fetch(
-    ' https://bad-api-assignment.reaktor.com/v2/products/' + category,
-    {
-      method: 'GET',
-    }
-  )
+  return fetch(apiLink + '/products/' + category, { method: 'GET' })
     .then((response) => response.json())
     .catch((error) => console.log(error))
 }
