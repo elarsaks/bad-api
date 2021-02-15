@@ -6,6 +6,7 @@ const redis = require('../repository/redis.js')
 // TODO: configure router
 router.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
+  res.header({ 'Cache-Control': 'max-age=300' })
   next()
 })
 

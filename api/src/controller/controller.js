@@ -5,9 +5,6 @@ const postgres = require('../repository/postgres.js')
 const validator = require('../services/validator.js')
 
 const getRequestedProducts = (req, res, next) => {
-  // Set client cache on 5 minutes
-  res.set({ 'Cache-Control': 'max-age=300' })
-
   postgres
     .getProductsByCategory(req.params.category, db)
     .then((data) => validator.validatePostgresData(data))
