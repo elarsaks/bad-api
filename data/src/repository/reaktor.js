@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const { isItArray } = require('../services/filter')
 const apiLink = 'https://bad-api-assignment.reaktor.com/v2'
 
 const fetchAvailability = (manufacturer) => {
@@ -8,17 +9,11 @@ const fetchAvailability = (manufacturer) => {
   })
     .then((response) => response.json())
     .then((response) => response.response)
-    .then((response) => {
-      //TODO: Create a separate filter for that into services
-      if (Array.isArray(response)) {
-        return response
-      } else {
-        console.log(
-          `Recieved "${response}" as a response on: "${manufacturer}", doing recursive call.`
-        )
-        return fetchAvailability(manufacturer)
-      }
-    })
+    .then((response) =>
+      isItArray(response, manufacturer)
+        ? response
+        : fetchAvailability(manufacturer)
+    )
     .catch((error) => console.log(error))
 }
 

@@ -16,6 +16,18 @@ const cleanXmldata = (rawData) => {
   )
 }
 
+const isItArray = (itemToCheck, onItem) => {
+  if (Array.isArray(itemToCheck)) {
+    return itemToCheck
+  } else {
+    console.log(
+      `Recieved "${itemToCheck}" as a response on: "${onItem}", doing recursive call.`
+    )
+    return false
+  }
+}
+
 module.exports = {
+  isItArray,
   cleanAvailabilityData,
 }
