@@ -9,6 +9,7 @@ const fetchAvailability = (manufacturer) => {
     .then((response) => response.json())
     .then((response) => response.response)
     .then((response) => {
+      //TODO: Create a separate filter for that into services
       if (Array.isArray(response)) {
         return response
       } else {
