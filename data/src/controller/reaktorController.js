@@ -16,8 +16,6 @@ const getProductsByCategories = (categories) => {
   )
 }
 
-/// TEST THOS 2 FUNCTIONS!!!
-
 module.exports = {
   getAvailabilityData,
   getProductsByCategories,
